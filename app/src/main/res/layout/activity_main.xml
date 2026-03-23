@@ -38,7 +38,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="多选(最多3张)" />
+                android:text="GET_CONTENT 多选" />
         </LinearLayout>
 
         <TextView
@@ -69,7 +69,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="PhotoPicker 多选3张" />
+                android:text="PhotoPicker 多选" />
         </LinearLayout>
 
         <TextView
@@ -166,12 +166,5 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
             android:text="保存示例图片" />
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:text="Android 10+ 通过 MediaStore 保存一般不需要存储权限；Android 9 及以下需要 WRITE_EXTERNAL_STORAGE。"
-            android:textAppearance="?attr/textAppearanceBodySmall" />
     </LinearLayout>
 </ScrollView>
