@@ -1,2 +1,1 @@
-# photopermission
-# photopermission
+# 相册权限：相册选图/保存图片到相册
