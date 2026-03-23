@@ -1,7 +1,6 @@
 package com.drww.photopermission
 
 import android.Manifest
-import android.content.ContentValues
 import android.content.Intent
 import android.graphics.Bitmap
 import android.graphics.Canvas
@@ -10,7 +9,6 @@ import android.graphics.Paint
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
-import android.provider.MediaStore
 import android.view.View
 import android.widget.ImageView
 import android.widget.Toast
@@ -149,39 +147,7 @@ class MainActivity : AppCompatActivity() {
 
     private fun saveDemoBitmap() {
         val bitmap = drawDemoBitmap()
-        val filename = "photo_permission_${System.currentTimeMillis()}.png"
-        val resolver = contentResolver
-
-        val contentValues = ContentValues().apply {
-            put(MediaStore.Images.Media.DISPLAY_NAME, filename)
-            put(MediaStore.Images.Media.MIME_TYPE, "image/png")
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
-                put(MediaStore.Images.Media.RELATIVE_PATH, "Pictures/PhotoPermissionDemo")
-                put(MediaStore.Images.Media.IS_PENDING, 1)
-            }
-        }
-
-        val uri = resolver.insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, contentValues)
-        if (uri == null) {
-            Toast.makeText(this, "保存失败：无法创建媒体记录", Toast.LENGTH_SHORT).show()
-            return
-        }
-
-        runCatching {
-            resolver.openOutputStream(uri)?.use { output ->
-                bitmap.compress(Bitmap.CompressFormat.PNG, 100, output)
-            } ?: error("无法打开输出流")
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
-                val published = ContentValues().apply {
-                    put(MediaStore.Images.Media.IS_PENDING, 0)
-                }
-                resolver.update(uri, published, null, null)
-            }
-            Toast.makeText(this, "图片已保存: $filename", Toast.LENGTH_SHORT).show()
-        }.onFailure {
-            resolver.delete(uri, null, null)
-            Toast.makeText(this, "保存失败: ${it.message}", Toast.LENGTH_SHORT).show()
-        }
+        ImageUtils.saveBitmapToGallery(this, bitmap)
     }
 
     private fun drawDemoBitmap(): Bitmap {
