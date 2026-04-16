@@ -121,8 +121,8 @@ class MainActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         previews = arrayOf(binding.preview0, binding.preview1, binding.preview2)
-
-        // 直接指向图库 App
+        // 你的 App 并不是在读取存储，而是在向系统申请协助。
+        // 直接指向图库 App todo 如果那个第三方图库 App 实现得不标准，极少数情况下会报安全错误，但总体来说也是免权限的。
         binding.btnActionPickSingle.setOnClickListener {
             val intent = Intent(Intent.ACTION_PICK).setType("image/*")
             actionPickSingleLauncher.launch(intent)
@@ -134,7 +134,8 @@ class MainActivity : AppCompatActivity() {
             }
             actionPickMultiLauncher.launch(Intent.createChooser(intent, "选择最多3张"))
         }
-        // 会打开文档选择器，标准的文件访问框架（SAF）的一部分
+        // 你的 App 并不是在读取存储，而是在向系统申请协助。
+        // 会打开文档选择器，标准的文件访问框架（SAF）的一部分，它打开的是系统级的文件选择器，始终不需要权限。
         binding.btnActionGetContentSingle.setOnClickListener {
             val intent = Intent(Intent.ACTION_GET_CONTENT).setType("image/*")
             actionGetContentSingleLauncher.launch(intent)
