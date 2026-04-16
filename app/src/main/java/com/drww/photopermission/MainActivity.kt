@@ -62,6 +62,32 @@ class MainActivity : AppCompatActivity() {
         updatePreview()
     }
 
+    private val actionGetContentSingleLauncher = registerForActivityResult(
+        ActivityResultContracts.StartActivityForResult()
+    ) { result ->
+        val uri = result.data?.data ?: return@registerForActivityResult
+        selectedUris.clear()
+        selectedUris.add(uri)
+        updatePreview()
+    }
+
+    private val actionGetContentMultiLauncher = registerForActivityResult(
+        ActivityResultContracts.StartActivityForResult()
+    ) { result ->
+        val data = result.data ?: return@registerForActivityResult
+        val uris = mutableListOf<Uri>()
+        data.data?.let { uris.add(it) }
+        val clip = data.clipData
+        if (clip != null) {
+            for (i in 0 until clip.itemCount.coerceAtMost(3)) {
+                clip.getItemAt(i).uri?.let(uris::add)
+            }
+        }
+        selectedUris.clear()
+        selectedUris.addAll(uris.distinct().take(3))
+        updatePreview()
+    }
+
     private val photoPickerSingleLauncher = registerForActivityResult(
         ActivityResultContracts.PickVisualMedia()
     ) { uri ->
@@ -96,16 +122,29 @@ class MainActivity : AppCompatActivity() {
 
         previews = arrayOf(binding.preview0, binding.preview1, binding.preview2)
 
+        // 直接指向图库 App
         binding.btnActionPickSingle.setOnClickListener {
             val intent = Intent(Intent.ACTION_PICK).setType("image/*")
             actionPickSingleLauncher.launch(intent)
+        }
+        binding.btnActionPickMulti.setOnClickListener {
+            val intent = Intent(Intent.ACTION_PICK).apply {
+                type = "image/*"
+                putExtra(Intent.EXTRA_ALLOW_MULTIPLE, true)
+            }
+            actionPickMultiLauncher.launch(Intent.createChooser(intent, "选择最多3张"))
+        }
+        // 会打开文档选择器，标准的文件访问框架（SAF）的一部分
+        binding.btnActionGetContentSingle.setOnClickListener {
+            val intent = Intent(Intent.ACTION_GET_CONTENT).setType("image/*")
+            actionGetContentSingleLauncher.launch(intent)
         }
         binding.btnActionGetContentMulti.setOnClickListener {
             val intent = Intent(Intent.ACTION_GET_CONTENT).apply {
                 type = "image/*"
                 putExtra(Intent.EXTRA_ALLOW_MULTIPLE, true)
             }
-            actionPickMultiLauncher.launch(Intent.createChooser(intent, "选择最多3张"))
+            actionGetContentMultiLauncher.launch(Intent.createChooser(intent, "选择最多3张"))
         }
         binding.btnPhotoPickerSingle.setOnClickListener {
             photoPickerSingleLauncher.launch(

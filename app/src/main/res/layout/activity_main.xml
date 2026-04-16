@@ -14,7 +14,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="1) ACTION_PICK / GET_CONTENT"
+            android:text="1) ACTION_PICK"
             android:textAppearance="?attr/textAppearanceTitleMedium" />
 
         <LinearLayout
@@ -33,6 +33,36 @@
                 android:text="ACTION_PICK 单选" />
 
             <com.google.android.material.button.MaterialButton
+                android:id="@+id/btn_action_pick_multi"
+                style="@style/Widget.Material3.Button.OutlinedButton"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="ACTION_PICK 多选" />
+        </LinearLayout>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="2) GET_CONTENT"
+            android:textAppearance="?attr/textAppearanceTitleMedium" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:orientation="horizontal">
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btn_action_get_content_single"
+                style="@style/Widget.Material3.Button.OutlinedButton"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="8dp"
+                android:layout_weight="1"
+                android:text="GET_CONTENT 单选" />
+
+            <com.google.android.material.button.MaterialButton
                 android:id="@+id/btn_action_get_content_multi"
                 style="@style/Widget.Material3.Button.OutlinedButton"
                 android:layout_width="0dp"
@@ -45,7 +75,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
-            android:text="2) Photo Picker"
+            android:text="3) Photo Picker"
             android:textAppearance="?attr/textAppearanceTitleMedium" />
 
         <LinearLayout
@@ -76,7 +106,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
-            android:text="3) 相册权限浏览 (App 内 Grid)"
+            android:text="4) 相册权限浏览 (App 内 Grid)"
             android:textAppearance="?attr/textAppearanceTitleMedium" />
 
         <com.google.android.material.button.MaterialButton
